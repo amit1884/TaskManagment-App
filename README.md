@@ -13,9 +13,9 @@ A modern todo app built using react native.
 ## ScreenShots
 
 1. Onboarding Screen
-![Onboarding Screen 1](./assets/screenshots/on_1.png)
-![Onboarding Screen 1](./assets/screenshots/on_2.png)
-![Onboarding Screen 1](./assets/screenshots/on_3.png)
+![Onboarding Screen 1](./assets/screenshots/on_1.jpeg)
+![Onboarding Screen 1](./assets/screenshots/on_2.jpeg)
+![Onboarding Screen 1](./assets/screenshots/on_3.jpeg)
 
 2. Login Screen 
 ![Login Screen 1](./assets/screenshots/login.jpeg)
