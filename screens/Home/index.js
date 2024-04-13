@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 function HomeScreen() {
   const [data, setData] = useState(appData);
   const [openAddTask, setOpenAddTasks] = useState(false);
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -62,7 +62,7 @@ function HomeScreen() {
             }}
           >
             <Text style={{ fontSize: 18 }}>Folders</Text>
-            <Pressable onPress={()=>navigation.navigate('Folders')}>
+            <Pressable onPress={() => navigation.navigate("Folders")}>
               <Text
                 style={{ fontSize: 15, color: "midnightblue", fontWeight: 600 }}
               >
@@ -80,7 +80,7 @@ function HomeScreen() {
             }}
           >
             <Text style={{ fontSize: 18 }}>Tasks</Text>
-            <Pressable onPress={()=>navigation.navigate('Tasks')}>
+            <Pressable onPress={() => navigation.navigate("Tasks")}>
               <Text
                 style={{ fontSize: 15, color: "midnightblue", fontWeight: 600 }}
               >
@@ -95,25 +95,29 @@ function HomeScreen() {
             <TaskPreview />
           </View>
           <View>
-            <Pressable
-              style={{
-                backgroundColor: "midnightblue",
-                padding: 10,
-                borderRadius: 20,
-                margin: 10,
-              }}
-              onPress={() => setOpenAddTasks(true)}
-            >
-              <Text
-                style={{ color: "#fff", textAlign: "center", fontSize: 18 }}
-              >
-                Add Task
-              </Text>
-            </Pressable>
             <AddTasks open={openAddTask} isOpen={setOpenAddTasks} />
           </View>
         </View>
       </ScrollView>
+      <Pressable
+        style={{
+          backgroundColor: "midnightblue",
+          padding: 10,
+          borderRadius: 60,
+          margin: 10,
+          position: "absolute",
+          bottom: 10,
+          right: 10,
+          width: 50,
+          height: 50,
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 10,
+        }}
+        onPress={() => setOpenAddTasks(true)}
+      >
+        <Ionicons name="add-outline" size={24} color={"#fff"} />
+      </Pressable>
     </SafeAreaView>
   );
 }
@@ -123,6 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    position: "relative",
   },
   headerContainer: {
     padding: 20,
