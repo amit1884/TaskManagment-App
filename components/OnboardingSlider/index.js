@@ -21,7 +21,7 @@ const OnBoardingSlider = () => {
   const handleSlideChange = (index) => {
     if (index == 2) {
       setTimeout(() => {
-        navigation.navigate("Login");
+        navigation.replace("Login");
       }, 1000);
     }
   };
@@ -63,7 +63,7 @@ const OnBoardingSlider = () => {
       <View>
         <Pressable
           style={styles.skipbtn}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.replace("Login")}
         >
           <Text style={styles.buttonText2}>SKIP</Text>
         </Pressable>

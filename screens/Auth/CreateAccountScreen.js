@@ -8,10 +8,14 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 function CreateAccountScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = () => {};
+  const navigation=useNavigation()
+  const handleLogin = () => {
+    navigation.replace('Home')
+  };
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
@@ -59,7 +63,7 @@ function CreateAccountScreen() {
           </Text>
         </View>
         <Pressable style={styles.signInBtn}>
-          <Ionicons name="home" size={20}/>
+          <Ionicons name="logo-google" size={20}/>
           <Text
             style={{
               color: "#000",
@@ -72,7 +76,7 @@ function CreateAccountScreen() {
           </Text>
         </Pressable>
         <Pressable style={styles.signInBtn}>
-          <Ionicons name="home" size={20}/>
+          <Ionicons name="logo-apple" size={20}/>
           <Text
             style={{
               color: "#000",
