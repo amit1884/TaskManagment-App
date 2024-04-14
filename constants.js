@@ -81,3 +81,5 @@ export const folderList = [
   { label: "Personal", value: "personal" },
   { label: "Work", value: "Work" },
 ];
+
+export const BASE_URL="http://192.168.1.45:5000"

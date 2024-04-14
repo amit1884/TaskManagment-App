@@ -12,37 +12,29 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { BASE_URL } from "../../constants";
-import { validateEmail, validatePassword } from "../../utitlity";
-function CreateAccountScreen() {
+function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
-
   const navigation = useNavigation();
+
   const handleLogin = () => {
     // navigation.replace('Home')
     if (!email) {
       setErrors({ ...errors, email: "Field is required!" });
     } else if (!password) {
       setErrors({ ...errors, password: "Field is required!" });
-    } else if (errors?.email || errors?.password) {
-      if (errors?.email) {
-        setErrors({ ...errors, email: "Invalid email!" });
-      } else {
-        setErrors({ ...errors, password: "Invalid password!" });
-      }
     } else {
       callAuthAPi();
     }
   };
   const callAuthAPi = () => {
     try {
-      // Assuming email and password are variables in your code
       axios({
         method: "post",
-        url: `${BASE_URL}/auth/signup`,
+        url: `${BASE_URL}/auth/login`,
         data: {
           email: email,
           password: password,
@@ -60,24 +52,7 @@ function CreateAccountScreen() {
       console.error(err);
     }
   };
-  const handleChange = (name, value) => {
-    if (name === "email") {
-      setEmail(value);
-      if (!validateEmail(value)) {
-        setErrors({ ...errors, email: "Invalid Email!" });
-      } else {
-        setErrors({ ...errors, email: "" });
-      }
-    }
-    if (name === "password") {
-      setPassword(value);
-      if (!validatePassword(value)) {
-        setErrors({ ...errors, password: "Invalid Password!" });
-      } else {
-        setErrors({ ...errors, password: "" });
-      }
-    }
-  };
+
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
@@ -90,7 +65,7 @@ function CreateAccountScreen() {
             placeholder="enter your username or e-mail"
             style={styles.inputField}
             value={email}
-            onChangeText={(text) => handleChange("email", text)}
+            onChangeText={(text) => setEmail(text)}
           />
           {errors?.email && (
             <Text style={{ color: "red", fontSize: 12 }}>{errors?.email}</Text>
@@ -105,30 +80,13 @@ function CreateAccountScreen() {
             placeholder="enter a password"
             style={styles.inputField}
             value={password}
-            onChangeText={(text) => handleChange("password", text)}
+            onChangeText={(text) => setPassword(text)}
           />
           {errors?.password && (
             <Text style={{ color: "red", fontSize: 12 }}>
               {errors?.password}
             </Text>
           )}
-          <View>
-            <Text style={{ fontSize: 12, color: "green" }}>
-              The password must be at least 8 characters long.
-            </Text>
-            <Text style={{ fontSize: 12, color: "green" }}>
-              Contain at least one uppercase letter.
-            </Text>
-            <Text style={{ fontSize: 12, color: "green" }}>
-              Contain at least one lowercase letter.
-            </Text>
-            <Text style={{ fontSize: 12, color: "green" }}>
-              Contain at least one number.
-            </Text>
-            <Text style={{ fontSize: 12, color: "green" }}>
-              Contain at least one special character.
-            </Text>
-          </View>
         </View>
         <View style={styles.otherActionContainer}>
           <View>
@@ -148,39 +106,6 @@ function CreateAccountScreen() {
             Sign In
           </Text>
         </Pressable>
-        {/* <View>
-          <Text
-            style={{ textAlign: "center", marginVertical: 10, color: "#666" }}
-          >
-            or Sign in with
-          </Text>
-        </View> */}
-        {/* <Pressable style={styles.signInBtn}>
-          <Ionicons name="logo-google" size={20}/>
-          <Text
-            style={{
-              color: "#000",
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            Google
-          </Text>
-        </Pressable>
-        <Pressable style={styles.signInBtn}>
-          <Ionicons name="logo-apple" size={20}/>
-          <Text
-            style={{
-              color: "#000",
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            Apple
-          </Text>
-        </Pressable> */}
         <View
           style={{
             flexDirection: "row",
@@ -188,15 +113,15 @@ function CreateAccountScreen() {
             marginTop: 20,
           }}
         >
-          <Text>Already have an account? </Text>
-          <Pressable onPress={() => navigation.navigate("SignIn")}>
-            <Text style={{ color: "#9BC7E5" }}>SignIn</Text>
+          <Text>Don't have an account? </Text>
+          <Pressable onPress={() => navigation.navigate("CreateAccount")}>
+            <Text style={{ color: "#9BC7E5" }}>CREATE ACCOUNT</Text>
           </Pressable>
         </View>
       </View>
       {loginError &&
         Alert.alert(
-          "Login Error",
+          "Error",
           loginError,
           [
             {
@@ -210,7 +135,7 @@ function CreateAccountScreen() {
   );
 }
 
-export default CreateAccountScreen;
+export default SignInScreen;
 
 const styles = StyleSheet.create({
   container: {

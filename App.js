@@ -8,6 +8,7 @@ import CreateAccountScreen from "./screens/Auth/CreateAccountScreen";
 import HomeScreen from "./screens/Home";
 import TaskScreen from "./screens/Tasks";
 import FoldersScreen from "./screens/Folders";
+import SignInScreen from "./screens/Auth/SignInScreen";
 
 // Import screens
 
@@ -29,6 +30,7 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen
           name="Home"
           component={HomeScreen}

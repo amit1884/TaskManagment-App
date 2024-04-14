@@ -21,7 +21,7 @@ function LoginScreen() {
             Create Account
           </Text>
         </Pressable>
-        <Pressable style={styles.signInBtn}>
+        <Pressable style={styles.signInBtn} onPress={()=>navigation.navigate('SignIn')}>
           <Text style={{ color: "#000", textAlign: "center", fontSize: 16 }}>
             Sign In
           </Text>
