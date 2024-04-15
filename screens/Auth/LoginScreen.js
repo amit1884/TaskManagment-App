@@ -16,12 +16,12 @@ function LoginScreen() {
         <Text style={styles.heading}>To Do App</Text>
       </View>
       <View style={styles.btnContainer}>
-        <Pressable style={styles.createAccountBtn} onPress={()=>navigation.navigate('CreateAccount')}>
+        <Pressable style={styles.createAccountBtn} onPress={()=>navigation.replace('CreateAccount')}>
           <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
             Create Account
           </Text>
         </Pressable>
-        <Pressable style={styles.signInBtn} onPress={()=>navigation.navigate('SignIn')}>
+        <Pressable style={styles.signInBtn} onPress={()=>navigation.replace('SignIn')}>
           <Text style={{ color: "#000", textAlign: "center", fontSize: 16 }}>
             Sign In
           </Text>

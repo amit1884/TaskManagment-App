@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -14,10 +14,21 @@ import AddTasks from "../../components/AddTasks";
 import { appData } from "../../constants";
 import TaskPreview from "../../components/Tasks/TaskPreview";
 import { useNavigation } from "@react-navigation/native";
+import { removeItemFromStorage } from "../../utitlity";
+import { useDispatch, useSelector } from "react-redux";
+import { clearToken, clearUserData } from "../../redux/slice/authSlice";
 function HomeScreen() {
   const [data, setData] = useState(appData);
   const [openAddTask, setOpenAddTasks] = useState(false);
+  const userData=useSelector((state)=>state?.auth?.user)
+   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const handleLogout = () => {
+    removeItemFromStorage("token");
+    removeItemFromStorage("userData");
+    dispatch(clearToken());
+    dispatch(clearUserData());
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -35,23 +46,49 @@ function HomeScreen() {
           </View>
           <View>
             <Text>Amit Raj</Text>
-            <Text>amitraj@gmail.com</Text>
-            <Pressable
+            <Text>{userData?.email || "NA"}</Text>
+            <View
               style={{
                 flexDirection: "row",
-                alignItems: "center",
                 columnGap: 10,
-                paddingVertical: 5,
-                borderRadius: 4,
-                marginTop: 10,
-                borderWidth: 1,
                 alignItems: "center",
-                justifyContent: "center",
               }}
             >
-              <Ionicons name="pencil" color="#000" />
-              <Text>Edit Profile</Text>
-            </Pressable>
+              <Pressable
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  columnGap: 10,
+                  paddingVertical: 5,
+                  borderRadius: 4,
+                  marginTop: 10,
+                  borderWidth: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: 20,
+                }}
+              >
+                <Ionicons name="pencil" color="#000" />
+                <Text>Edit Profile</Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  columnGap: 10,
+                  paddingVertical: 6,
+                  borderRadius: 4,
+                  marginTop: 10,
+                  borderWidth: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: 20,
+                }}
+                onPress={() => handleLogout()}
+              >
+                <Ionicons name="power" color="#000" />
+              </Pressable>
+            </View>
           </View>
         </View>
         <View style={styles.folderContainer}>

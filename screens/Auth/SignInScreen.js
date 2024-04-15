@@ -12,6 +12,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { BASE_URL } from "../../constants";
+import { setItemInStorage } from "../../utitlity";
+import { useDispatch } from "react-redux";
+import { setToken, setUserData } from "../../redux/slice/authSlice";
 function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +22,7 @@ function SignInScreen() {
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const handleLogin = () => {
     // navigation.replace('Home')
     if (!email) {
@@ -41,11 +44,16 @@ function SignInScreen() {
         },
       })
         .then((response) => {
-          console.log(response.data);
-          navigation.replace('Home')
+          setItemInStorage("token", response?.data?.data?.token);
+          setItemInStorage(
+            "userData",
+            JSON.stringify(response?.data?.data?.user)
+          );
+          dispatch(setToken(response?.data?.data?.token));
+          dispatch(setUserData(response?.data?.data?.user));
+          navigation.replace("Home");
         })
         .catch((err) => {
-          console.error(err.response.data);
           setLoginError(err.response.data.message);
         });
     } catch (err) {
@@ -89,9 +97,6 @@ function SignInScreen() {
           )}
         </View>
         <View style={styles.otherActionContainer}>
-          <View>
-            <Text>Remember me</Text>
-          </View>
           <Pressable>
             <Text style={{ color: "#9BC7E5" }}>Forgot password?</Text>
           </Pressable>

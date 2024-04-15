@@ -15,3 +15,28 @@ export function validatePassword(password) {
   // Test the password against the regex
   return passwordRegex.test(password);
 }
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export const setItemInStorage = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (error) {}
+};
+export const getItemFromStorage = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      // Value exists, do something with it
+      return value;
+    } else {
+      // Value does not exist
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+};
+export const removeItemFromStorage = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {}
+};

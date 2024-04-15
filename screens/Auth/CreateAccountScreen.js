@@ -22,7 +22,6 @@ function CreateAccountScreen() {
 
   const navigation = useNavigation();
   const handleLogin = () => {
-    // navigation.replace('Home')
     if (!email) {
       setErrors({ ...errors, email: "Field is required!" });
     } else if (!password) {
@@ -50,10 +49,9 @@ function CreateAccountScreen() {
       })
         .then((response) => {
           console.log(response.data);
-          navigation.replace('Home')
+          navigation.navigate("SignIn");
         })
         .catch((err) => {
-          console.error(err.response.data);
           setLoginError(err.response.data.message);
         });
     } catch (err) {
@@ -130,14 +128,6 @@ function CreateAccountScreen() {
             </Text>
           </View>
         </View>
-        <View style={styles.otherActionContainer}>
-          <View>
-            <Text>Remember me</Text>
-          </View>
-          <Pressable>
-            <Text style={{ color: "#9BC7E5" }}>Forgot password?</Text>
-          </Pressable>
-        </View>
       </View>
       <View style={styles.btnContainer}>
         <Pressable
@@ -145,7 +135,7 @@ function CreateAccountScreen() {
           onPress={() => handleLogin()}
         >
           <Text style={{ color: "#fff", textAlign: "center", fontSize: 16 }}>
-            Sign In
+           Sign Up
           </Text>
         </Pressable>
         {/* <View>
