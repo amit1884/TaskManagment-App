@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { removeItemFromStorage } from "../../utitlity";
 import { useDispatch, useSelector } from "react-redux";
 import { clearToken, clearUserData } from "../../redux/slice/authSlice";
+import FloatingButton from "../../components/FloatingButton";
 function HomeScreen() {
   const [data, setData] = useState(appData);
   const [openAddTask, setOpenAddTasks] = useState(false);
@@ -107,6 +108,7 @@ function HomeScreen() {
               </Text>
             </Pressable>
           </View>
+
           <Folders data={data} />
         </View>
         <View style={styles.tasksContainer}>
@@ -136,25 +138,7 @@ function HomeScreen() {
           </View>
         </View>
       </ScrollView>
-      <Pressable
-        style={{
-          backgroundColor: "midnightblue",
-          padding: 10,
-          borderRadius: 60,
-          margin: 10,
-          position: "absolute",
-          bottom: 10,
-          right: 10,
-          width: 50,
-          height: 50,
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 10,
-        }}
-        onPress={() => setOpenAddTasks(true)}
-      >
-        <Ionicons name="add-outline" size={24} color={"#fff"} />
-      </Pressable>
+      <FloatingButton setOpen={setOpenAddTasks} />
     </SafeAreaView>
   );
 }

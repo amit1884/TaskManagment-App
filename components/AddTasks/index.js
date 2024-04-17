@@ -24,7 +24,7 @@ function AddTasks({ open, isOpen }) {
       visible={open}
       animationType="slide"
     >
-      <View style={{ position: "relative", flex: 1 }}>
+      <View style={{ position: "relative", flex: 1,backgroundColor:'#fff' }}>
         <View
           style={{
             flexDirection: "row",

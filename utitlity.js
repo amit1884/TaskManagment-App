@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export function validateEmail(email) {
   // Regular expression for email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,7 +17,10 @@ export function validatePassword(password) {
   // Test the password against the regex
   return passwordRegex.test(password);
 }
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export function isAlpha(str) {
+  return /^[a-zA-Z]+$/.test(str);
+}
 export const setItemInStorage = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);

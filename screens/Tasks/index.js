@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -10,12 +10,36 @@ import {
 import Dropdown from "../../components/Dropdown";
 import TaskPreview from "../../components/Tasks/TaskPreview";
 import { appData, folderList } from "../../constants";
+import { useSelector } from "react-redux";
 
 function TaskScreen() {
+  const token = useSelector((state) => state.auth.token);
+  const userData = useSelector((state) => state.auth.user);
+  const [tasks, setTasks] = useState({});
   const categories = Object.entries(appData).map(([category, data]) => ({
     category,
     tasks: data.tasks,
   }));
+  useEffect(() => {
+    try {
+      axios({
+        method: "get",
+        url: `${BASE_URL}/folders/getfolders/${userData?.email}`,
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          setFolders(response.data.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   const renderItem = ({ item }) => (
     <View style={{}}>
       <Text style={{ fontSize: 16, margin: 10, textTransform: "capitalize" }}>
