@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, StyleSheet } from 'react-native';
 
-const Dropdown = ({ items,selectedItem,setSelectedItem ,customStyle}) => {
-
+const Dropdown = ({ items,selectedItem,setSelectedItem ,customStyle,name}) => {
   return (
     <View style={[styles.container,customStyle]}>
       <RNPickerSelect
-        onValueChange={(value) => setSelectedItem('folder',value)}
+        onValueChange={(value) => setSelectedItem(name,value)}
         items={items}
         placeholder={{ label: 'Select an item...', value: null }}
+        value={selectedItem}
       />
     </View>
   );

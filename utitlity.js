@@ -45,3 +45,10 @@ export const removeItemFromStorage = async (key) => {
     await AsyncStorage.removeItem(key);
   } catch (error) {}
 };
+
+export const parseFolders = (folders) => {
+  if (folders && folders?.length > 0) {
+   const parsedFolder= folders?.map((item, index) => ({ label: item.title, value: item.title }));
+   return parsedFolder
+  }else return []
+};

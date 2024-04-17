@@ -13,11 +13,28 @@ function TaskPreview({ task }) {
     >
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View>
-          <Text style={{fontSize:18,fontWeight:500}}>Task Title</Text>
-          <View style={{ flexDirection: "row",marginVertical:10,columnGap:10,alignItems:'center' }}>
-            <Text>Folder</Text>
-            <View style={{ backgroundColor: "#fff", color: "orange" ,paddingVertical:2,paddingHorizontal:20,borderRadius:19}}>
-              <Text style={{ color: "orange" }}>Low</Text>
+          <Text style={{ fontSize: 18, fontWeight: 500 }}>
+            {task?.title || "Task Title"}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: 10,
+              columnGap: 10,
+              alignItems: "center",
+            }}
+          >
+            <Text>{task?.folder || "Folder"}</Text>
+            <View
+              style={{
+                backgroundColor: "#fff",
+                color: "orange",
+                paddingVertical: 2,
+                paddingHorizontal: 20,
+                borderRadius: 19,
+              }}
+            >
+              <Text style={{ color: "orange" }}>{task?.priority || "Low"}</Text>
             </View>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -25,8 +42,8 @@ function TaskPreview({ task }) {
             <Text>12/04/2024</Text>
           </View>
         </View>
-        <View >
-          <Ionicons name="chevron-forward-outline" size={18}/>
+        <View>
+          <Ionicons name="chevron-forward-outline" size={18} />
         </View>
       </View>
     </View>

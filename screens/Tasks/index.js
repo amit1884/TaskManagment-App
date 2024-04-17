@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   ScrollView,
@@ -7,51 +8,71 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import Dropdown from "../../components/Dropdown";
 import TaskPreview from "../../components/Tasks/TaskPreview";
-import { appData, folderList } from "../../constants";
-import { useSelector } from "react-redux";
+import { BASE_URL, appData, folderList } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { setTasks } from "../../redux/slice/tasksSlice";
+import NoResult from "../../components/NoResult";
+import axios from "axios";
+import { parseFolders } from "../../utitlity";
+import AddTasks from "../../components/AddTasks";
+import FloatingButton from "../../components/FloatingButton";
 
 function TaskScreen() {
+  const route = useRoute();
+  const dispatch = useDispatch();
+  const folderName = route.params?.folderName;
   const token = useSelector((state) => state.auth.token);
   const userData = useSelector((state) => state.auth.user);
-  const [tasks, setTasks] = useState({});
-  const categories = Object.entries(appData).map(([category, data]) => ({
-    category,
-    tasks: data.tasks,
-  }));
+  const tasks = useSelector((state) => state?.task?.tasks?.data);
+  const folders = useSelector((state) => state?.folder?.folders?.data);
+  const [selectedFolder, setSelectedFolder] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [openAddTask,setOpenAddTasks]=useState(false)
   useEffect(() => {
+    if (folderName) {
+      setSelectedFolder(folderName);
+      getTasks(folderName.toLowerCase());
+    } else {
+      getTasks();
+    }
+  }, []);
+  const getTasks = (folderName) => {
+    setLoading(true);
+    let payload = {
+      email: userData?.email,
+    };
+    if (folderName) {
+      payload = { ...payload, filter: { folder: folderName } };
+    }
     try {
       axios({
-        method: "get",
-        url: `${BASE_URL}/folders/getfolders/${userData?.email}`,
+        method: "post",
+        url: `${BASE_URL}/tasks/getTasks`,
         headers: {
           Authorization: token,
         },
+        data: payload,
       })
         .then((response) => {
-          console.log(response.data);
-          setFolders(response.data.data);
+          setLoading(false);
+          dispatch(setTasks(response.data));
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err.response.data);
         });
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
-  }, []);
-  const renderItem = ({ item }) => (
-    <View style={{}}>
-      <Text style={{ fontSize: 16, margin: 10, textTransform: "capitalize" }}>
-        {item.category}
-      </Text>
-      <FlatList
-        data={item.tasks}
-        renderItem={({ item }) => <TaskPreview />}
-        keyExtractor={(item) => item.id.toString()}
-      />
-    </View>
-  );
+  };
+  const handleFolderChange = (name, value) => {
+    setSelectedFolder(value);
+    getTasks(value);
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", padding: 10 }}>
       <View>
@@ -62,21 +83,34 @@ function TaskScreen() {
             paddingHorizontal: 20,
             borderRadius: 40,
           }}
-          placeholder="search folder"
+          placeholder="Search task"
         />
         <View style={{ marginVertical: 10 }}>
           <Text style={{ padding: 10, fontWeight: 600 }}>Select Folder</Text>
           <Dropdown
-            items={folderList}
+            items={parseFolders(folders)}
+            selectedItem={selectedFolder}
+            setSelectedItem={handleFolderChange}
             customStyle={{ backgroundColor: "#F2F4F8", borderRadius: 10 }}
+            name="folder"
           />
         </View>
       </View>
-      <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.category}
-      />
+      {loading ? (
+        <ActivityIndicator />
+      ) : tasks?.length > 0 ? (
+        <FlatList
+          data={tasks}
+          renderItem={({ item }) => <TaskPreview task={item} />}
+          keyExtractor={(item) => item._id}
+        />
+      ) : (
+        <NoResult />
+      )}
+      <View>
+        <AddTasks open={openAddTask} isOpen={setOpenAddTasks} getTasks={getTasks}/>
+      </View>
+      <FloatingButton setOpen={setOpenAddTasks} />
     </SafeAreaView>
   );
 }

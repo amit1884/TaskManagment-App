@@ -9,22 +9,60 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Dropdown from "../Dropdown";
-function AddTasks({ open, isOpen }) {
-  const [formValues, setFormValues] = useState({});
+import { useDispatch, useSelector } from "react-redux";
+import { parseFolders } from "../../utitlity";
+import axios from "axios";
+import { BASE_URL } from "../../constants";
+function AddTasks({ open, isOpen,getTasks }) {
+  const [formValues, setFormValues] = useState({ status: "todo" });
   const [formErrors, setFormErrors] = useState({});
+  const folders = useSelector((state) => state?.folder?.folders?.data);
+  const userData = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
   const handleChange = (name, value) => {
     let temp = { ...formValues };
     temp[name] = value;
     setFormValues(temp);
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    addTasks();
+  };
+  const addTasks = () => {
+    try {
+      axios({
+        method: "post",
+        url: `${BASE_URL}/tasks/createTask`,
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          email: userData?.email,
+          folder: formValues?.folder,
+          title: formValues?.title,
+          description: formValues?.description,
+          priority: formValues?.priority,
+          status: formValues?.status,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          getTasks()
+          isOpen(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Modal
       onRequestClose={() => isOpen(false)}
       visible={open}
       animationType="slide"
     >
-      <View style={{ position: "relative", flex: 1,backgroundColor:'#fff' }}>
+      <View style={{ position: "relative", flex: 1, backgroundColor: "#fff" }}>
         <View
           style={{
             flexDirection: "row",
@@ -153,13 +191,31 @@ function AddTasks({ open, isOpen }) {
         >
           <Text style={{ fontSize: 16, marginBottom: 10 }}>Select Folder</Text>
           <Dropdown
-            items={[
-              { label: "Common", value: "common" },
-              { label: "Personal", value: "personal" },
-              { label: "Work", value: "Work" },
-            ]}
+            items={parseFolders(folders)}
             selectedItem={formValues["folder"]}
             setSelectedItem={handleChange}
+            name="folder"
+          />
+        </View>
+        <View
+          style={{
+            backgroundColor: "#F2F4F8",
+            padding: 10,
+            borderRadius: 10,
+            margin: 10,
+          }}
+        >
+          <Text style={{ fontSize: 16, marginBottom: 10 }}>Select Status</Text>
+          <Dropdown
+            items={[
+              { label: "To Do", value: "todo" },
+              { label: "In Progress", value: "inprogress" },
+              { label: "Done", value: "done" },
+              { label: "On Hold", value: "onhold" },
+            ]}
+            selectedItem={formValues["status"]}
+            setSelectedItem={handleChange}
+            name="status"
           />
         </View>
         <Pressable

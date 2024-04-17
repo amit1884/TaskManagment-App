@@ -21,6 +21,7 @@ import AddFolder from "../../components/Folder/AddFolder";
 import { setFolders } from "../../redux/slice/folderSlice";
 import { BASE_URL } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
+import { TextInput } from "react-native-gesture-handler";
 
 const numColumns = 2;
 function FoldersScreen() {
@@ -44,7 +45,6 @@ function FoldersScreen() {
         },
       })
         .then((response) => {
-          console.log(response.data);
           setShowAddFolder(false);
           getFolders();
         })
@@ -106,13 +106,14 @@ function FoldersScreen() {
       >
         <View>
           <Text style={{ color: "#1E0342", fontSize: 20 }}>{item?.title}</Text>
+          <Text style={{ color: "#1E0342", fontSize: 16 }}>{item?.tasks?.length} Tasks</Text>
         </View>
         <View>
           <View style={{ flexDirection: "row", columnGap: 20 }}>
             <Pressable onPress={(e) => handleEditModal(e)}>
               <Ionicons name="pencil" size={22} color={"#1E0342"} />
             </Pressable>
-            <Pressable onPress={(e) => handleDelete(e,item)}>
+            <Pressable onPress={(e) => handleDelete(e, item)}>
               <Ionicons name="trash" size={22} color={"red"} />
             </Pressable>
           </View>
@@ -122,6 +123,17 @@ function FoldersScreen() {
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={{margin:10}}>
+        <TextInput
+          placeholder="Search folder"
+          style={{
+            backgroundColor: "#F2F4F8",
+            padding: 10,
+            borderRadius: 10,
+            marginVertical: 10,
+          }}
+        />
+      </View>
       {folders?.length > 0 ? (
         <FlatList
           data={folders}
