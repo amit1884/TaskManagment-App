@@ -82,4 +82,10 @@ export const folderList = [
   { label: "Work", value: "Work" },
 ];
 
-export const BASE_URL="http://192.168.1.45:5000"
+export const BASE_URL = "http://192.168.1.45:5000";
+
+export const statusList = [
+  { label: "To Do", value: "todo" },
+  { label: "In Progress", value: "inprogress" },
+  { label: "Done", value: "done" },
+];

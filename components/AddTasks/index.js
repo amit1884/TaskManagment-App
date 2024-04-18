@@ -12,7 +12,7 @@ import Dropdown from "../Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { parseFolders } from "../../utitlity";
 import axios from "axios";
-import { BASE_URL } from "../../constants";
+import { BASE_URL, statusList } from "../../constants";
 function AddTasks({ open, isOpen,getTasks }) {
   const [formValues, setFormValues] = useState({ status: "todo" });
   const [formErrors, setFormErrors] = useState({});
@@ -102,8 +102,8 @@ function AddTasks({ open, isOpen,getTasks }) {
               borderRadius: 10,
               marginVertical: 10,
             }}
-            value={formValues["desc"]}
-            onChangeText={(text) => handleChange("desc", text)}
+            value={formValues["description"]}
+            onChangeText={(text) => handleChange("description", text)}
           />
           <View
             style={{
@@ -207,12 +207,7 @@ function AddTasks({ open, isOpen,getTasks }) {
         >
           <Text style={{ fontSize: 16, marginBottom: 10 }}>Select Status</Text>
           <Dropdown
-            items={[
-              { label: "To Do", value: "todo" },
-              { label: "In Progress", value: "inprogress" },
-              { label: "Done", value: "done" },
-              { label: "On Hold", value: "onhold" },
-            ]}
+            items={statusList}
             selectedItem={formValues["status"]}
             setSelectedItem={handleChange}
             name="status"

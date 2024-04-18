@@ -12,6 +12,7 @@ import SignInScreen from "./screens/Auth/SignInScreen";
 import { getItemFromStorage } from "./utitlity";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setUserData } from "./redux/slice/authSlice";
+import TaskDetails from "./screens/TaskDetails";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +68,7 @@ const Routes = () => {
             />
             <Stack.Screen name="Tasks" component={TaskScreen} />
             <Stack.Screen name="Folders" component={FoldersScreen} />
+            <Stack.Screen name="TaskDetails" component={TaskDetails} />
           </>
         )}
       </Stack.Navigator>

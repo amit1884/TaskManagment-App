@@ -1,15 +1,21 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 function TaskPreview({ task }) {
+  const navigation = useNavigation();
+  const goToTaskDetails = (id) => {
+    navigation.navigate("TaskDetails", { taskId: id });
+  };
   return (
-    <View
+    <Pressable
       style={{
         padding: 10,
         borderRadius: 10,
         backgroundColor: "#F2F4F8",
         marginVertical: 3,
       }}
+      onPress={() => goToTaskDetails(task?._id)}
     >
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View>
@@ -46,7 +52,7 @@ function TaskPreview({ task }) {
           <Ionicons name="chevron-forward-outline" size={18} />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
