@@ -20,7 +20,7 @@ const TaskDetails = () => {
   const taskId = route?.params?.taskId;
   const [loading, setLoading] = useState(false);
   const [taskDetails, setTaskDetails] = useState({});
-  const [showChangeStatus,setShowChangeStatus]=useState(false)
+  const [showChangeStatus, setShowChangeStatus] = useState(false);
   const token = useSelector((state) => state?.auth?.token);
   const getTask = () => {
     try {
@@ -36,7 +36,6 @@ const TaskDetails = () => {
       })
         .then((response) => {
           setTaskDetails(response.data.data);
-          console.log(response.data.data);
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -129,7 +128,7 @@ const TaskDetails = () => {
             width: "100%",
             left: 2,
           }}
-          onPress={()=>setShowChangeStatus(true)}
+          onPress={() => setShowChangeStatus(true)}
         >
           <Text style={{ color: "#fff", fontSize: 17 }}>Change Status</Text>
           {/* <Ionicons name="trash" size={30} color={"red"} /> */}
@@ -152,7 +151,14 @@ const TaskDetails = () => {
           {/* <Ionicons name="trash" size={30} color={"red"} /> */}
         </TouchableOpacity>
       </View>
-      {showChangeStatus&&<ChangeStatus showChangeStatus={showChangeStatus} setShowChangeStatus={setShowChangeStatus}/>}
+      {showChangeStatus && (
+        <ChangeStatus
+          showChangeStatus={showChangeStatus}
+          setShowChangeStatus={setShowChangeStatus}
+          onClose={getTask}
+          taskId={taskId}
+        />
+      )}
     </SafeAreaView>
   );
 };

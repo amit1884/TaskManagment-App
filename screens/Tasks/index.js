@@ -76,16 +76,7 @@ function TaskScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", padding: 10 }}>
       <View>
-        <TextInput
-          style={{
-            backgroundColor: "#F2F4F8",
-            paddingVertical: 5,
-            paddingHorizontal: 20,
-            borderRadius: 40,
-          }}
-          placeholder="Search task"
-        />
-        <View style={{ marginVertical: 10 }}>
+        <View style={{marginBottom:10}}>
           <Text style={{ padding: 10, fontWeight: 600 }}>Select Folder</Text>
           <Dropdown
             items={parseFolders(folders)}

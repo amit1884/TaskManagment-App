@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-function SingleFolder({folder,metaData,customStyle}) {
+function SingleFolder({folder,customStyle}) {
   return (
     <View
       style={[{
@@ -22,13 +22,13 @@ function SingleFolder({folder,metaData,customStyle}) {
           justifyContent: "space-between",
         }}
       >
-        <Text style={{ fontSize: 14,textTransform:'capitalize' }}>{folder}</Text>
+        <Text style={{ fontSize: 14,textTransform:'capitalize' }}>{folder.title}</Text>
         <Pressable>
           <Ionicons name="chevron-forward-outline" color="#000" size={18} />
         </Pressable>
       </View>
       <View>
-        <Text style={{ fontSize: 16 }}>{metaData?.tasks?.length} tasks</Text>
+        <Text style={{ fontSize: 16 }}>{folder.tasks?.length} tasks</Text>
       </View>
     </View>
   );
